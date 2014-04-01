@@ -1,0 +1,387 @@
+# 1) Factorial
+
+def factorial (x)
+ if x==0
+  return 1
+ else
+  return x*(factorial(x-1))
+ end
+end
+
+
+
+
+
+# 2) Take array of numbers as input and return squares of all the numbers as output in array format.
+
+def square_array(array) 
+  if array.length > 0 then
+    array.each do |item|
+      item = item ** 2
+      print "#{item} "
+    end
+  end
+  return (array)
+end
+
+p square_array([1,2,3])        #1 4 9 <- here the array contents are not modified, just the squared values are printed.
+
+
+
+class Array
+  def square_array
+    self.map! {|value| value ** 2}
+  end
+end
+
+p [1,2,3].square_array         #[1,4,9] <- here the array contents are modified.
+
+
+
+
+
+
+# 3) Take your name as input, output should be alternate capital/small character.
+#  Ex :
+#  I/P : 'sachin tendulkar' 
+#  O/P : 'SaChIn TeNdUlKaR' (Each word should have alternate capital/small character , first character should be capital)
+
+
+def methodCase(str)
+
+  l = str.length
+
+  i=0
+
+  j=0
+
+  while (i<l) do
+
+    if(str[i]==" ")
+
+      j=1
+ 
+    end
+
+    if(j%2==0)
+
+      str[i]=str[i].upcase
+
+    end
+
+    i+=1
+
+    j+=1
+
+  end
+
+  return str
+
+end
+
+
+
+
+
+puts methodCase("aastha Kesarwani")    #AaStHa KeSaRwAnI
+
+
+
+
+
+
+# 4) Input {:sachin_tendulkar => 'batsman', :zaheer_khan => 'bowler', :m_s_dhoni => 'wicket_keeper'}
+#   Output should be :-
+#   Sachin Tendulkar is a Batsman.
+#   Zaheer Khan is a Bowler.
+#   M S Dhoni is a Wicket Keeper.
+
+def hashExercise (hash)
+
+  hash.each do |player,role|
+
+    player = player.gsub("_"," ")
+
+    player = player.capitalize
+    
+role = role.gsub("_"," ")
+    role = role.capitalize
+
+    puts"#{player} is a #{role}"
+
+  end
+
+end
+
+
+hashExercise ({'sachin_tendulkar' => 'batsman', 'zaheer_khan' => 'bowler', 'm_s_dhoni' => 'wicket_keeper'})
+
+#Sachin tendulkar is a Batsman
+#Zaheer khan is a Bowler
+#M S dhoni is a Wicket keeper
+
+
+
+
+
+# 5) Create a method which should accept 2 arguments. If both arguments are :-
+#    i) numbers then sum it
+#    ii)string then concatenate it
+#       If both arguments are of different kind then display a appropriate error message using exception handling.
+
+
+
+def operate(x,y)
+
+  if((x.is_a? String) && (y.is_a? String))
+
+    x = x.capitalize<<" #{y.capitalize}"
+
+    puts x
+  elsif((x.is_a? Numeric) && (y.is_a? Numeric))
+
+    x = x+y
+
+    puts x
+  else
+
+    raise TypeError, "The two values do not match" if (x.class != y.class)
+
+    raise TypeError, "The two values are Symbols.!!" if ((x.is_a? Symbol) && (y.is_a? Symbol))
+  end
+
+end
+
+
+
+
+operate("aas","aas")		#Aas Aas
+
+operate(5,8)			#13
+
+operate("aas",7)		#TypeError: The two values do not match
+
+operate(:aas,:aas)		#TypeError: The twovalues are Symbols.!!
+
+
+
+
+
+
+# 6) Create a student class. Every student object should have a unique incremental roll no. , name, age, gender. Follow OOP, every attribute should have getters & 
+#    setters.
+#    i) It should have a method to sort student objects based on name or age or roll no.
+
+
+
+class Student
+
+  attr_accessor :roll_no, :name, :age, :gender
+
+  @@i = 0
+
+  def initialize
+
+    @@i += 1
+
+    @roll_no=@@i
+
+  end
+
+end
+
+
+def sort(student,sortby)
+
+    if(sortby.upcase == "ROLL") then
+
+        student.sort_by! &:roll_no
+
+        puts"Sorted by roll number"
+
+        return student
+
+    elsif(sortby.upcase == "AGE")
+
+      student.sort_by! &:age
+
+      puts"Sorted by age"
+
+      return student
+
+    elsif(sortby.upcase == "NAME")
+
+      student.sort_by! &:name
+
+      puts"Sorted by name"
+
+      return student
+
+    else
+
+      puts"Wrong sort parameter entered"
+
+      return
+
+    end
+
+  end
+
+
+
+
+aastha = Student.new
+
+aastha.name = "Aastha Kesarwani"
+
+aastha.gender = "Female"
+
+aastha.age = 24
+
+
+vishal = Student.new
+
+vishal.name = "Vishal Mujumdar"
+
+vishal.gender = "Male"
+
+vishal.age = 22
+
+
+xyz = Student.new
+
+xyz.name="Xyz Ac"
+
+xyz.age = 3
+
+xyz.gender = "Male"
+
+
+
+
+sorted = sort([vishal,aastha,xyz],"name")
+
+
+
+
+sorted.each do |s|
+
+  puts " "
+
+  puts "Roll: #{s.roll_no}"
+
+  puts "Name: #{s.name}"
+
+  puts "Age: #{s.age}"
+
+  puts "Gender: #{s.gender}"
+
+end
+
+
+
+
+
+#OUTPUT
+
+Sorted by name
+ 
+Roll: 1
+Name: Aastha Kesarwani
+Age: 24
+Gender: Female
+ 
+Roll: 2
+Name: Vishal Mujumdar
+Age: 22
+Gender: Male
+ 
+Roll: 3
+Name: Xyz Ac
+Age: 3
+Gender: Male
+
+
+# 7) Create a class Vehicle and initailize it with no. of wheels, color, price, brand. Create other classes like Bike, Car, Bus which should inherit from Vehical 
+#    class. Also create a module method which will be use inside Vehical class, then further using inheritence by its sub-classes.
+
+
+
+
+
+
+class Vehicle
+
+  attr_accessor :no_of_wheels, :color, :price, :brand
+
+  def initialize()
+
+    @no_of_wheels = 2
+
+    @color = "Black"
+
+    @price = 250000
+
+    @brand = "Brand"
+
+  end
+
+  def module
+
+    puts"This is module method inside Vehicle class"
+
+  end
+
+end
+
+
+
+class Bike < Vehicle
+
+end
+
+
+
+class Car < Vehicle
+
+  def initialize
+
+    @no_of_wheels = 4
+
+    @color = "Black"
+
+    @price = 2500000
+
+    @brand = "Brand"
+
+  end
+
+end
+
+
+
+class Bus < Vehicle
+
+  def initialize
+
+    @no_of_wheels = 4
+
+    @color = "Black"
+
+    @price = 2500000
+
+    @brand = "Brand"
+
+  end
+
+end
+
+
+
+maruti800 = Car.new
+
+
+puts maruti800.no_of_wheels		#4
+
+maruti800.module			#This is module method inside Vehicle class
+
